@@ -8,6 +8,7 @@ function pageLoad() {
     }
 
 }
+
 function login(event) {
 
     event.preventDefault();
@@ -25,27 +26,28 @@ function login(event) {
         Cookies.set("username", responseData.username);
         Cookies.set("token", responseData.token);
 
-        window.location.href = '../../index.html';
+        window.location.href = '../index.html';
     }
 });
-    function logout() {
+}
 
-        fetch("/user/logout", {method: 'post'}
-        ).then(response => response.json()
-    ).then(responseData => {
-            if (responseData.hasOwnProperty('error')) {
+function logout() {
 
-            alert(responseData.error);
+    fetch("/user/logout", {method: 'post'}
+    ).then(response => response.json()
+).then(responseData => {
+        if (responseData.hasOwnProperty('error')) {
 
-        } else {
+        alert(responseData.error);
 
-            Cookies.remove("username");
-            Cookies.remove("token");
+    } else {
 
-            window.location.href = '../../index.html';
+        Cookies.remove("username");
+        Cookies.remove("token");
 
-        });
+        window.location.href = '../index.html';
 
     }
+});
 
 }

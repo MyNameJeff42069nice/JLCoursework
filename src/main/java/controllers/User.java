@@ -1,9 +1,9 @@
 package controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import server.Main;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
@@ -37,14 +37,14 @@ public class User {
                     userDetails.put("token", token);
                     return userDetails.toString();
                 } else {
-                    return "{\"Error\": \"Incorrect password!\"}";
+                    return "{\"Error\": \"Incorrect username or password!\"}";
                 }
 
             } else {
-                return "{\"Error\": \"Unknown user!\"}";
+                return "{\"Error\": \"Unknown username or password!\"}";
             }
 
-        } catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Database error during /user/login: " + exception.getMessage());
             return "{\"Error\": \"Server side error!\"}";
         }
@@ -90,10 +90,40 @@ public class User {
 
             }
 
-        } catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Database error during /user/logout: " + exception.getMessage());
             return "{\"error\": \"Server side error!\"}";
         }
 
     }
+
+    public class Products {
+        @GET
+        @Path("list")
+        public String ProductList() {
+            System.out.println("Invoked Products.ProductList()");
+            JSONArray response = new JSONArray();
+            try{
+                PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price");
+                ResultSet results = ps.executeQuery();
+                while (results.next()==true){
+                    JSONObject row = new JSONObject();
+                    row.put("ProductID", results.getInt(1));
+                    row.put("ProductName", results.getInt(2));
+                    row.put("ProductDepartment", results.getInt(3));
+                    row.put("Brand", results.getInt(4));
+                    row.put("OtherInfo", results.getInt(5));
+                    row.put("Price", results.getInt(6));
+                    response.add(row);
+                } // curl command for testing when server fixed: curl -s localhost:8081/food/list
+                return response.toString();
+            } catch (Exception exception) {
+                System.out.println ("Database error: " +exception.getMessage());
+                return "{\"Error\": \"Unable to list items. Error code xx.\"}";
+            }
+
+        }
     }
+}
+
+
