@@ -20,14 +20,14 @@ public class User {
 
         System.out.println("Invoked loginUser() on path user/login");
         try {
-            PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Username = ?");
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT password FROM users WHERE username = ?");
             ps1.setString(1, username);
             ResultSet loginResults = ps1.executeQuery();
             if (loginResults.next()) {
                 String correctPassword = loginResults.getString(1);
                 if (password.equals(correctPassword)) {
                     String token = UUID.randomUUID().toString();
-                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Username = ?");
+                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE users SET token = ? WHERE username = ?");
                     ps2.setString(1, token);
                     ps2.setString(2, username);
                     ps2.executeUpdate();
@@ -52,7 +52,7 @@ public class User {
 
     public static boolean validToken(String token) {
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT userID FROM users WHERE token = ?");
             ps.setString(1, token);
             ResultSet logoutResults = ps.executeQuery();
             return logoutResults.next();
@@ -63,39 +63,20 @@ public class User {
     }
 
     @POST
-    @Path("logout")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String logoutUser(@CookieParam("token") String token) {
-
-        try {
-
-            System.out.println("user/logout");
-
-            PreparedStatement ps1 = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
-            ps1.setString(1, token);
-            ResultSet logoutResults = ps1.executeQuery();
-            if (logoutResults.next()) {
-
-                int id = logoutResults.getInt(1);
-
-                PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = NULL WHERE UserID = ?");
-                ps2.setInt(1, id);
-                ps2.executeUpdate();
-
-                return "{\"status\": \"OK\"}";
-            } else {
-
-                return "{\"error\": \"Invalid token!\"}";
-
-            }
-
-        } catch (Exception exception) {
-            System.out.println("Database error during /user/logout: " + exception.getMessage());
-            return "{\"error\": \"Server side error!\"}";
+    @Path("logout/{token}")
+    public String logoutUser(@PathParam("token") String token){
+        System.out.println("Invoked logoutUser() on path user/logout{token}");
+        try{
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET token = null WHERE token = ?");
+            ps.setString(1, token);
+            ps.execute();
+            return "{\"OK\": \"Token deleted\"}";
+        } catch (Exception exception){
+            System.out.println("Database error during /user/logout/{token}: " + exception.getMessage());
+            return "{\"Error\": \"Server side error!\"}";
         }
-
     }
+
 
 
 }
