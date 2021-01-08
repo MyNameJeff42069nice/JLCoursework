@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>login</title>
+    <link rel="stylesheet" type="text/css" href="/client/css/stylesheet.css">
+    <script src="/client/js/js.cookie.min.js"></script>
+    <script src="/client/js/logout.js"></script>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <script> src="js/login.js"</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>
     <script type="module" src="/client/js/js.cookie.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script>
 
         function postUserLogin() {
             console.log("Invoked postUserLogin() ");
 
-            var url = "/user/login";
-            var formData = new FormData(document.getElementById('loginForm'));
+            let url = "/user/login";
+            let formData = new FormData(document.getElementById('loginForm'));
 
             fetch(url, {
                 method: "POST",
@@ -25,7 +29,7 @@
             } else {
                 Cookies.set("token", response.token);
                 Cookies.set("username", response.username);
-                window.open("index.html", "_self");       //open reviews.html in same tab
+                window.open("index.html", "_self");       //open index.html in same tab
             }
         });
         }
@@ -38,7 +42,13 @@
 
 <div class="navbar">
     <a href="http://localhost:8081/client/login.html">Login</a>
+    <a href="http://localhost:8081/client/signup.html">Sign-Up</a>
     <a href="http://localhost:8081/client/Products.html">Products</a>
+    <a href="http://localhost:8081/client/Carp.html">Carp</a>
+    <a href="http://localhost:8081/client/Coarse.html">Coarse</a>
+    <a href="http://localhost:8081/client/Sea.html">Sea</a>
+    <a href="http://localhost:8081/client/Predator.html">Predator</a>
+    <a href="http://localhost:8081/client/Other.html">Other</a>
     <button onclick='logout();'>Logout</button>
 </div>
 
@@ -47,9 +57,9 @@
     <b>Login </b>
     <br>
     <form id="loginForm">
-        Username: <input type="text" name="username" id="username">
+        Username: <label for="username"></label><input type="text" name="username" id="username">
         <br>
-        Password: <input type="password" name="password" id="password">
+        Password: <label for="password"></label><input type="password" name="password" id="password">
     </form>
 <button class="button" onclick='postUserLogin();'>LOGIN</button>
 </div>

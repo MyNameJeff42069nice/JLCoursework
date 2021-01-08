@@ -38,63 +38,126 @@ public class Products {
             System.out.println("Database error: " + exception.getMessage());
             return "{\"Error\": \"Unable to list items. Error code xx.\"}";
         }
-
-
-
-
-        // Below are unused as of yet.
-
-
-
-
     }
     @GET
-    @Path("get/{ProductID}")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String GetProduct(@PathParam("ProductID") Integer ProductID) {
-        System.out.println("Invoked Product.GetProduct() with ProductID " + ProductID);
+    @Path("Carplist")
+    public String ProductsCarpList() {
+        System.out.println("Invoked Products.ProductsCarpList()");
+        JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductID = ?");
-            ps.setInt(1, ProductID);
+            PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductDepartment=='Carp'");
             ResultSet results = ps.executeQuery();
-            JSONObject response = new JSONObject();
-            if (results.next()== true) {
-                response.put("ProductID", ProductID);
-                response.put("ProductName", results.getString(1));
-                response.put("ProductDepartment", results.getString(2));
-                response.put("Brand", results.getString(3));
-                response.put("OtherInfo", results.getString(4));
-                response.put("Price", results.getString(5));
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("ProductID", results.getInt(1));
+                row.put("ProductName", results.getString(2));
+                row.put("ProductDepartment", results.getString(3));
+                row.put("Brand", results.getString(4));
+                row.put("OtherInfo", results.getString(5));
+                row.put("Price", results.getString(6));
+                response.add(row);
             }
             return response.toString();
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            return "{\"Error\": \"Unable to get item, please see server console for more info.\"}";
+            return "{\"Error\": \"Unable to list items. Error code xx.\"}";
         }
     }
-    @POST
-    @Path("add")
-    public String ProductsAdd(@FormDataParam("ProductName") String ProductName, @FormDataParam("ProductDepartment") String ProductDepartment, @FormDataParam("Brand") String Brand, @FormDataParam("Other Information") String OtherInfo, @FormDataParam("Price") String Price) {
-        System.out.println("Invoked Parts.PartsAdd()");
+    @GET
+    @Path("Coarselist")
+    public String ProductsCoarseList() {
+        System.out.println("Invoked Products.ProductsCoarseList()");
+        JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Products (ProductName, ProductDepartment, Brand, OtherInfo, Price) VALUES (?, ?, ?, ?, ?)");
-            ps.setString(1, ProductName);
-            ps.setString(2, ProductDepartment);
-            ps.setString(3, Brand);
-            ps.setString(4, OtherInfo);
-            ps.setString(5, Price);
-            ps.execute();
-            return "{\"OK\": \"Added Product.\"}";
+            PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductDepartment=='Coarse'");
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("ProductID", results.getInt(1));
+                row.put("ProductName", results.getString(2));
+                row.put("ProductDepartment", results.getString(3));
+                row.put("Brand", results.getString(4));
+                row.put("OtherInfo", results.getString(5));
+                row.put("Price", results.getString(6));
+                response.add(row);
+            }
+            return response.toString();
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            return "{\"Error\": \"Unable to create new item, please see server console for more info.\"}";
+            return "{\"Error\": \"Unable to list items. Error code xx.\"}";
         }
-
+    }
+    @GET
+    @Path("Otherlist")
+    public String ProductsOtherList() {
+        System.out.println("Invoked Products.ProductsOtherList()");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductDepartment=='Other'");
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("ProductID", results.getInt(1));
+                row.put("ProductName", results.getString(2));
+                row.put("ProductDepartment", results.getString(3));
+                row.put("Brand", results.getString(4));
+                row.put("OtherInfo", results.getString(5));
+                row.put("Price", results.getString(6));
+                response.add(row);
+            }
+            return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items. Error code xx.\"}";
+        }
+    }
+    @GET
+    @Path("Predatorlist")
+    public String ProductsPredatorList() {
+        System.out.println("Invoked Products.ProductsPredatorList()");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductDepartment=='Predator'");
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("ProductID", results.getInt(1));
+                row.put("ProductName", results.getString(2));
+                row.put("ProductDepartment", results.getString(3));
+                row.put("Brand", results.getString(4));
+                row.put("OtherInfo", results.getString(5));
+                row.put("Price", results.getString(6));
+                response.add(row);
+            }
+            return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items. Error code xx.\"}";
+        }
+    }
+    @GET
+    @Path("Sealist")
+    public String ProductsSeaList() {
+        System.out.println("Invoked Products.ProductsSeaList()");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("Select ProductID, ProductName, ProductDepartment, Brand, OtherInfo, Price FROM Products WHERE ProductDepartment=='Sea'");
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("ProductID", results.getInt(1));
+                row.put("ProductName", results.getString(2));
+                row.put("ProductDepartment", results.getString(3));
+                row.put("Brand", results.getString(4));
+                row.put("OtherInfo", results.getString(5));
+                row.put("Price", results.getString(6));
+                response.add(row);
+            }
+            return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items. Error code xx.\"}";
+        }
     }
 }
-
-
-
-
 

@@ -1,26 +1,74 @@
 <!DOCTYPE html>
-<html>
-
-
+<html lang="en">
 <head>
-    <title>Home</title>
+    <title>Coarse Fishing Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="rating" content="General">
+    <meta name="expires" content="never">
+    <meta name="language" content="English, EN">
+    <script src="/client/js/storage.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/client/css/stylesheet.css">
     <script src="/client/js/js.cookie.min.js"></script>
     <script src="/client/js/logout.js"></script>
-    <html lang="en"></html>
+    <script src="/client/js/Products.js"></script>
     <meta charset="UTF-8">
 </head>
 
-<body>
+
+<body onload="doShowAllandCookieCheck()">
 <h1>BASS-ICS</h1>
 
 <div class="navbar">
     <a href="http://localhost:8081/client/login.html">Login</a>
-    <a href="https://localhost:8081/client/Products.html">Products</a>
+    <a href="http://localhost:8081/client/signup.html">Sign-Up</a>
+    <a href="http://localhost:8081/client/Products.html">Products</a>
+    <a href="http://localhost:8081/client/Carp.html">Carp</a>
+    <a href="http://localhost:8081/client/Coarse.html">Coarse</a>
+    <a href="http://localhost:8081/client/Sea.html">Sea</a>
+    <a href="http://localhost:8081/client/Predator.html">Predator</a>
+    <a href="http://localhost:8081/client/Other.html">Other</a>
     <button onclick='logout();'>Logout</button>
 </div>
-<h2>Coarse Fishing Products</h2>
-<button onclick='getProductsList();'>Display Products</button>
+<h2>Products</h2>
+<button onclick='getCoarseProductsList();'>Display Coarse Fishing Products</button>
 <table id="ProductsTable"></table>
+
+
+<h2>Shopping Cart</h2>
+<p>Insert an Item's ID Number (the left most number on the table) and quantity for your shopping cart. </p>
+<form name=ShoppingList>
+
+    <div id="main">
+        <table>
+            <tr>
+                <td><b>Item ID:</b><label>
+                    <input type=text name=name>
+                </label></td>
+                <td><b>Quantity:</b><label>
+                    <input type=text name=data>
+                </label></td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    <input type=button value="Save"   onclick="SaveItem()">
+                    <input type=button value="Update" onclick="ModifyItem()">
+                    <input type=button value="Delete" onclick="RemoveItem()">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="items_table">
+        <h3>Shopping List</h3>
+        <table id=list></table>
+        <p>
+            <label><input type=button value="Clear" onclick="ClearAll()">
+                <i>* Delete all items</i></label>
+        </p>
+    </div>
+</form>
 </body>
 </html>

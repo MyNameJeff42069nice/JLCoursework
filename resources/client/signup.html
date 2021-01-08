@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign-Up</title>
+    <link rel="stylesheet" type="text/css" href="/client/css/stylesheet.css">
+    <script src="/client/js/js.cookie.min.js"></script>
+    <script src="/client/js/logout.js"></script>
+    <meta charset="UTF-8">
+    <link rel="Stylesheet" type="text/css" href="css/stylesheet.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+
+    function validateEmail() {
+        const formData = new FormData(document.getElementById('InputUserDetails'));
+        let email = formData.get("email")
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(re.test(String(email).toLowerCase())){
+            addUser();}
+        else{
+            alert("Invalid Email Address")
+        }
+    }
+    //addUser function to add a user to the database
+    function addUser() {
+        console.log("Invoked AddUser()");
+        const formData = new FormData(document.getElementById('InputUserDetails'));
+        let url = "/user/add";
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        }).then(response => {
+            console.log('Response:', response)
+            return response.json()
+        }).then(response => {
+            if (response.hasOwnProperty("Error")) {
+                alert(JSON.stringify(response));
+                if (response == null){
+                    alert(JSON.stringify(response));
+                }
+            } else {
+                Cookies.set("token", response.token);
+                Cookies.set("username", response.username);
+                window.open("login.html", "_self");   //URL replaces the current page.  Create a new html file
+            }                                                  //in the client folder called welcome.html
+        });
+    }
+    </script>
+</head>
+<body>
+<h1>BASS-ICS</h1>
+
+<div class="navbar">
+    <a href="http://localhost:8081/client/login.html">Login</a>
+    <a href="http://localhost:8081/client/signup.html">Sign-Up</a>
+    <a href="http://localhost:8081/client/Products.html">Products</a>
+    <a href="http://localhost:8081/client/Carp.html">Carp</a>
+    <a href="http://localhost:8081/client/Coarse.html">Coarse</a>
+    <a href="http://localhost:8081/client/Sea.html">Sea</a>
+    <a href="http://localhost:8081/client/Predator.html">Predator</a>
+    <a href="http://localhost:8081/client/Other.html">Other</a>
+    <button onclick='logout();'>Logout</button>
+</div>
+
+<center>
+<div id="SignUp">
+    <form id="InputUserDetails">
+        <b>Sign Up </b>
+        <br>
+        To make an account, please enter a Email Address, Username and Password:
+        <br>
+        <br>
+        Username: <label>
+        <input type="username" name="username" id="username"> </label>
+        <br>
+        Password: <label>
+        <input type="password" name="password" id="password"></label>
+        <br>
+        Email: <label>
+        <input type="email" name="email" id="email"></label>
+    </form>
+    <button onclick='validateEmail();'>Sign Up</button>
+</div>
+</center>
+</body>
+
+</html>

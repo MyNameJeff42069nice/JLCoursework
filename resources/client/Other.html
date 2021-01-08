@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sea Fishing Products</title>
+    <title>Other Fishing Products</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="rating" content="General">
     <meta name="expires" content="never">
@@ -16,7 +16,7 @@
 </head>
 
 
-<body onload="doShowAllandCookieCheck">
+<body onload="doShowAll()">
 <h1>BASS-ICS</h1>
 
 <div class="navbar">
@@ -31,7 +31,7 @@
     <button onclick='logout();'>Logout</button>
 </div>
 <h2>Products</h2>
-<button onclick='getSeaProductsList();'>Display Sea Fishing Products</button>
+<button onclick='getOtherProductsList();'>Display Other Fishing Products</button>
 <table id="ProductsTable"></table>
 
 
@@ -42,7 +42,6 @@
     <div id="main">
         <table>
             <tr>
-
                 <td><b>Item ID:</b><label>
                     <input type=text name=name>
                 </label></td>

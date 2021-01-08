@@ -1,11 +1,12 @@
 package controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import server.Main;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class User {
     public String loginUser(@FormDataParam("username") String username, @FormDataParam("password") String password) {
 
         System.out.println("Invoked loginUser() on path user/login");
+        password = generateHash(password);
         try {
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT password FROM users WHERE username = ?");
             ps1.setString(1, username);
@@ -77,7 +79,33 @@ public class User {
         }
     }
 
+    @POST
+    @Path("add")
+    public String UsersAdd(@FormDataParam("email") String email, @FormDataParam("username") String username, @FormDataParam("password") String password) {
+        System.out.println("Invoked User.UsersAdd()");
+        password = generateHash(password);
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (email, username , password) VALUES (?, ?, ?)");
+            ps.setString(1, email);
+            ps.setString(2, username);
+            ps.setString(3, password);
+            ps.execute();
+            return "{\"OK\": \"Added user.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/login: " + exception.getMessage());
+            return "{\"Error\": \"Unable to create new item - please see console for more information!\"}";
+        }
 
+    }
+    public static String generateHash(String text) {
+        try {
+            MessageDigest hasher = MessageDigest.getInstance("MD5");
+            hasher.update(text.getBytes());
+            return DatatypeConverter.printHexBinary(hasher.digest()).toUpperCase();
+        } catch (NoSuchAlgorithmException nsae) {
+            return nsae.getMessage();
+        }
+    }
 
 }
 
