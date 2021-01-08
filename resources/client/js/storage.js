@@ -43,7 +43,7 @@ function ClearAll() {
 //below step can be done via PHP and AJAX too.
 
 
-function doShowAllandCookieCheck() {
+function doShowAll() {
     if (CheckBrowser()) {
         var key = "";
         var list = "<tr><th>Item</th><th>Value</th></tr>\n";
