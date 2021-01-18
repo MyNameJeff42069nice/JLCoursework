@@ -86,6 +86,3 @@ function CheckBrowser() {
 /*
 You can extend this script by inserting data to database or adding payment processing API to shopping cart..
 */
-function MakeOrder() {
-
-}

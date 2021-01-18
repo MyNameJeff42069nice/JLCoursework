@@ -33,10 +33,16 @@ public class User {
                     ps2.setString(1, token);
                     ps2.setString(2, username);
                     ps2.executeUpdate();
-
+                    PreparedStatement ps3 = Main.db.prepareStatement("SELECT userID, email From users WHERE username = ?");
+                    ps3.setString(1, username);
+                    ResultSet usernameResults = ps3.executeQuery();
+                    int userID = usernameResults.getInt(1);
+                    String email = usernameResults.getString(2);
                     JSONObject userDetails = new JSONObject();
                     userDetails.put("username", username);
+                    userDetails.put("email", email);
                     userDetails.put("token", token);
+                    userDetails.put("userID", userID);
                     return userDetails.toString();
                 } else {
                     return "{\"Error\": \"Incorrect username or password!\"}";
@@ -95,7 +101,6 @@ public class User {
             System.out.println("Database error during /user/login: " + exception.getMessage());
             return "{\"Error\": \"Unable to create new item - please see console for more information!\"}";
         }
-
     }
     public static String generateHash(String text) {
         try {

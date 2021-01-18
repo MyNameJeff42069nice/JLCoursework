@@ -23,7 +23,7 @@
     //addUser function to add a user to the database
     function addUser() {
         console.log("Invoked AddUser()");
-        const formData = new FormData(document.getElementById('InputUserDetails'));
+        const formData = new FormData(document.getElementById('InputUserDetails')); //InputUserDetails is the Id of the form
         let url = "/user/add";
         fetch(url, {
             method: "POST",
@@ -40,6 +40,8 @@
             } else {
                 Cookies.set("token", response.token);
                 Cookies.set("username", response.username);
+                Cookies.set("userID", response.userID);
+                Cookies.set("email", response.email);
                 window.open("login.html", "_self");   //URL replaces the current page.  Create a new html file
             }                                                  //in the client folder called welcome.html
         });
@@ -58,6 +60,7 @@
     <a href="http://localhost:8081/client/Sea.html">Sea</a>
     <a href="http://localhost:8081/client/Predator.html">Predator</a>
     <a href="http://localhost:8081/client/Other.html">Other</a>
+
     <button onclick='logout();'>Logout</button>
 </div>
 

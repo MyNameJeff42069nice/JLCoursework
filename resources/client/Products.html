@@ -13,6 +13,7 @@
     <script src="/client/js/logout.js"></script>
     <script src="/client/js/Products.js"></script>
     <script src="/client/js/cookiecheck.js"></script>
+    <script src="/client/js/Order.js"></script>
     <meta charset="UTF-8">
 </head>
 
@@ -31,6 +32,7 @@
     <a href="http://localhost:8081/client/Other.html">Other</a>
     <button onclick='logout();'>Logout</button>
 </div>
+
 <h2>Products</h2>
 <button onclick='getProductsList();'>Display All Products</button>
 <table id="ProductsTable"></table>
@@ -71,5 +73,6 @@
         </p>
     </div>
 </form>
+<button onclick='AddOrder();'>Place Order</button>
 </body>
 </html>
